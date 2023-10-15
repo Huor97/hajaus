@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import * as THREE from 'three';
 import { OrbitControls } from 'three-orbitcontrols-ts';
+import { ApiService } from './api.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,8 @@ import { OrbitControls } from 'three-orbitcontrols-ts';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
+  donnees: number[][] = [];
+  // donnees: any;
   private renderer!: THREE.WebGLRenderer;
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
@@ -77,6 +80,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private ngZone: NgZone,
     private el: ElementRef,
+    private apiService: ApiService,
   ) {}
 
   ngOnInit() {
@@ -84,11 +88,31 @@ export class AppComponent implements OnInit, OnDestroy {
     //this.createCube();
     this.createPoints();
     this.render();
+
+    // this.apiService.getDonnees().subscribe(data => {
+    //   this.donnees = data;
+    //   this.donnees = this.transformApiData(apiData);
+    //   console.log(this.donnees); // Vous pouvez afficher les données dans la console
+    //   this.updatePoints();
+    // });
+
+    this.apiService.getDonnees().subscribe(
+      (apiData: any) => {
+        this.donnees = this.transformApiData(apiData);
+        console.log(this.donnees);
+        this.updatePoints();
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des données API', error);
+      }
+    );
   }
+
 
   ngOnDestroy() {
     this.stopRendering();
   }
+  
 
   private initThree() {
     // ... (le reste de votre code)
@@ -104,6 +128,7 @@ export class AppComponent implements OnInit, OnDestroy {
       0.1,
       1000,
     );
+    
     //this.camera.position.z = 5;
     this.camera.position.set(5, 5, 5);
     this.camera.lookAt(0, 0, 0);
@@ -113,6 +138,18 @@ export class AppComponent implements OnInit, OnDestroy {
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.25;
     this.controls.rotateSpeed = 0.35;
+  }
+
+  private transformApiData(apiData: any): number[][] {
+    const transformedData: number[][] = [];
+
+    if (apiData && apiData.coordonnees) {
+      apiData.coordonnees.forEach((coordinate: number[])  => {
+        transformedData.push([coordinate[0], coordinate[1], coordinate[2]]);
+      });
+    }
+
+    return transformedData;
   }
 
   //  private createCube() {
@@ -129,12 +166,38 @@ export class AppComponent implements OnInit, OnDestroy {
 
     for (let i = 0; i < this.data.length; i++) {
       vertices.push(this.data[i][0], this.data[i][1], this.data[i][2]);
+
     }
 
     geometry.setAttribute(
       'position',
       new THREE.Float32BufferAttribute(vertices, 3),
     );
+    const material = new THREE.PointsMaterial({ color: 0xff0000, size: 0.1 });
+    const points = new THREE.Points(geometry, material);
+    this.scene.add(points);
+  }
+
+  private updatePoints() {
+    // Supprimez les anciens points de la scène
+    this.scene.children.forEach(child => {
+      if (child instanceof THREE.Points) {
+        this.scene.remove(child);
+      }
+    });
+
+    // Créez de nouveaux points avec les données récupérées depuis l'API
+    const geometry = new THREE.BufferGeometry();
+    const vertices: number[] = [];
+
+    for (let i = 0; i < this.donnees.length; i++) {
+      // vertices.push(this.donnees[i].x, this.donnees[i].y, this.donnees[i].z);
+      vertices.push(this.donnees[i][0], this.donnees[i][1], this.donnees[i][2]);
+
+    }
+
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+  
     const material = new THREE.PointsMaterial({ color: 0xff0000, size: 0.1 });
     const points = new THREE.Points(geometry, material);
     this.scene.add(points);
