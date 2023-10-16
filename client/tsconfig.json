@@ -24,11 +24,14 @@
       "dom"
     ]
   },
+  
   "angularCompilerOptions": {
-    "types": ["three"],
+    "types": ["node", "three"],
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+    
   }
+  
 }
