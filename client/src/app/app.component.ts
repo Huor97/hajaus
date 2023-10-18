@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import { OrbitControls } from 'three-orbitcontrols-ts';
+import { ApiService } from './api.service';
 
 @Component({
   selector: 'app-root',
@@ -10,16 +11,22 @@ import { OrbitControls } from 'three-orbitcontrols-ts';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  // donnees: any;
 
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
   private controls!: OrbitControls;
 
-  constructor(private el: ElementRef, private ngZone: NgZone) {}
+  constructor(private el: ElementRef, private ngZone: NgZone,  private apiService: ApiService,) {}
   ngOnInit() {
     this.initThree();
     this.generateSTL();
+    // ========================================================= API
+    // this.apiService.getDonnees().subscribe(data => {
+    //   this.donnees = data;
+    //   console.log(this.donnees); // Vous pouvez afficher les données dans la console
+    // });
   }
 
   initThree() {
@@ -27,7 +34,7 @@ export class AppComponent implements OnInit {
     this.scene = new THREE.Scene();
 
     // Initialiser la caméra
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(85, window.innerWidth / window.innerHeight, 0.1, 1000);
     this.camera.position.set(5, 5, 5);
     this.camera.lookAt(0, 0, 0);
 
@@ -40,60 +47,101 @@ export class AppComponent implements OnInit {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
   }
+
+    // ngOnInit() {
+    // this.initThree();
+    // //this.createCube();
+    // this.createPoints();
+    // this.render();
+
+// ========================================================= API
+  //   this.apiService.getDonnees().subscribe(data => {
+  //     this.donnees = data;
+  //     this.donnees = this.transformApiData(apiData);
+  //     console.log(this.donnees); // Vous pouvez afficher les données dans la console
+  //     this.updatePoints();
+  //   });
+
+  //   this.apiService.getDonnees().subscribe(
+  //     (apiData: any) => {
+  //       this.donnees = this.transformApiData(apiData);
+  //       console.log(this.donnees);
+  //       this.updatePoints();
+  //     },
+  //     (error) => {
+  //       console.error('Erreur lors de la récupération des données API', error);
+  //     }
+  //   );
+  // }
+// ========================================================= End API
+
+
   generateSTL() {
     // Coordonnées XYZ de votre modèle
    
       const apiCoordinates = [
+        // c01
+          // [0, 0, 0],
+          // [0, 0, 1],
+          // [1, 0, 0],
+         
+          // [0, 0, 1],
+          // [1, 0, 0],
+          // [1, 0, 1],
+        // c02
+          // [0, 0, 0],
+          // [0, 0, 2],
+          // [1, 0, 0],
+
+          // [0, 0, 2],
+          // [1, 0, 0],
+          // [1, 0, 2],
+         
+        //c1  
           [0, 0, 0],
-          [0, 0, 1],
-          [0, 0, 2],
-          [0, 0, 3],
           [0, 0, 4],
-          [1, 0, 0],
-          [1, 0, 1],
-          [1, 0, 2],
-          [1, 0, 3],
-          [1, 0, 4],
-          [2, 0, 0],
-          [2, 0, 1],
-          [2, 0, 2],
-          [2, 0, 3],
-          [2, 0, 4],
-          [3, 0, 0],
-          [3, 0, 1],
-          [3, 0, 2],
-          [3, 0, 3],
-          [3, 0, 4],
-          [4, 0, 0],
-          [4, 0, 1],
-          [4, 0, 2],
-          [4, 0, 3],
-          [4, 0, 4],
           [5, 0, 0],
-          [5, 0, 1],
-          [5, 0, 2],
-          [5, 0, 3],
+
+          [0, 0, 4],
+          [5, 0, 0],
           [5, 0, 4],
+          // ===================== deuxième objet
+          //c2
           [0, 3, 0],
-          [0, 3, 1],
-          [0, 3, 2],
-          [0, 3, 3],
           [0, 3, 4],
-          [1, 3, 0],
-          [1, 3, 1],
-          [1, 3, 2],
-          [1, 3, 3],
-          [1, 3, 4],
-          [2, 3, 0],
-          [2, 3, 1],
-          [2, 3, 2],
-          [2, 3, 3],
-          [2, 3, 4],
           [3, 3, 0],
-          [3, 3, 1],
-          [3, 3, 2],
-          [3, 3, 3],
+
+          [0, 3, 4],
+          [3, 3, 0],
           [3, 3, 4],
+          // [0, 0, 0],
+          // [0, 0, 4],
+          // [0, 3, 0],
+
+          // [0, 0, 4],
+          // [0, 3, 0],
+          // [0, 3, 4],
+
+
+  // [0, 3, 1],
+  // [0, 3, 2],
+  // [0, 3, 3],
+  // [0, 3, 4],
+  // [1, 3, 0],
+  // [1, 3, 1],
+  // [1, 3, 2],
+  // [1, 3, 3],
+  // [1, 3, 4],
+  // [2, 3, 0],
+  // [2, 3, 1],
+  // [2, 3, 2],
+  // [2, 3, 3],
+  // [2, 3, 4],
+  // [3, 3, 0],
+  // [3, 3, 1],
+  // [3, 3, 2],
+  // [3, 3, 3],
+  // [3, 3, 4],
       ]
 
     // Créez une géométrie à partir des coordonnées XYZ
@@ -101,8 +149,11 @@ export class AppComponent implements OnInit {
     const positions = new Float32Array(apiCoordinates.flat());
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
+     // Recalculer les normales de la géométrie
+     geometry.computeVertexNormals();
+
     // Créez un mesh à partir de la géométrie
-    const material = new THREE.MeshPhongMaterial({ color: 0xffffff, specular: 0x111111, shininess: 200 });
+    const material = new THREE.MeshPhongMaterial({ color: 0xffffff, specular: 0x111111, shininess: 200, side: THREE.DoubleSide });
     const mesh = new THREE.Mesh(geometry, material);
 
     // Exportez le mesh au format STL
@@ -117,7 +168,7 @@ export class AppComponent implements OnInit {
 
 
     // Ajout d'une lumière ambiante pour éclairer le modèle
-    const ambientLight = new THREE.AmbientLight(0x808080);
+    const ambientLight = new THREE.AmbientLight(0x888888);
     this.scene.add(ambientLight);
 
     // Animation de la scène
@@ -133,6 +184,65 @@ export class AppComponent implements OnInit {
   }
 }
 
+// const apiCoordinates = [
+//   [0, 0, 0],
+//   [0, 0, 1],
+//   [1, 0, 0],
+ 
+//   [0, 0, 1],
+//   [1, 0, 0],
+//   [1, 0, 1],
+
+  // [0, 0, 2],
+  // [0, 0, 3],
+  // [0, 0, 4],
+  // [1, 0, 0],
+  // [1, 0, 1],
+  // [1, 0, 2],
+  // [1, 0, 3],
+  // [1, 0, 4],
+  // [2, 0, 0],
+  // [2, 0, 1],
+  // [2, 0, 2],
+  // [2, 0, 3],
+  // [2, 0, 4],
+  // [3, 0, 0],
+  // [3, 0, 1],
+  // [3, 0, 2],
+  // [3, 0, 3],
+  // [3, 0, 4],
+  // [4, 0, 0],
+  // [4, 0, 1],
+  // [4, 0, 2],
+  // [4, 0, 3],
+  // [4, 0, 4],
+  // [5, 0, 0],
+  // [5, 0, 1],
+  // [5, 0, 2],
+  // [5, 0, 3],
+  // [5, 0, 4],
+  // ===================== deuxième objet
+  // [0, 3, 0], ==> 1
+  // [0, 3, 1],
+  // [0, 3, 2],
+  // [0, 3, 3],
+  // [0, 3, 4], ==> 2
+  // [1, 3, 0],
+  // [1, 3, 1],
+  // [1, 3, 2],
+  // [1, 3, 3],
+  // [1, 3, 4],
+  // [2, 3, 0],
+  // [2, 3, 1],
+  // [2, 3, 2],
+  // [2, 3, 3],
+  // [2, 3, 4],
+  // [3, 3, 0], ==> 3
+  // [3, 3, 1],
+  // [3, 3, 2],
+  // [3, 3, 3],
+  // [3, 3, 4],
+// ]
 
 
 
@@ -264,7 +374,7 @@ export class AppComponent implements OnInit {
 // export class AppComponent implements OnInit, OnDestroy {
 //   donnees: number[][] = [];
 //   // donnees: any;
-//   private renderer!: THREE.WebGLRenderer;
+  // private renderer!: THREE.WebGLRenderer;
 //   private scene!: THREE.Scene;
 //   private camera!: THREE.PerspectiveCamera;
 //   private controls!: OrbitControls;
@@ -336,6 +446,7 @@ export class AppComponent implements OnInit {
 //     this.createPoints();
 //     this.render();
 
+// ========================================================= API
 //     // this.apiService.getDonnees().subscribe(data => {
 //     //   this.donnees = data;
 //     //   this.donnees = this.transformApiData(apiData);
@@ -354,6 +465,7 @@ export class AppComponent implements OnInit {
 //       }
 //     );
 //   }
+// ========================================================= End API
 
 
 //   ngOnDestroy() {
