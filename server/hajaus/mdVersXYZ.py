@@ -7,11 +7,8 @@ def lire_coordonnees_fichier_xyz(chemin_fichier):
             x, y, z = map(float, ligne.split())  # Traitement des coordonnées du fichier
             coordonnees.append((x, y, z))
             
-    print(coordonnees)
+    # print("==>",coordonnees)
     return coordonnees
-
-
-
 
 
 # Exemple d'appel de la fonction pour traiter un fichier XYZ
