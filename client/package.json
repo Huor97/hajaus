@@ -22,7 +22,6 @@
     "@angular/platform-browser-dynamic": "^17.3.12",
     "@angular/router": "^17.3.12",
     "@jscad/stl-serializer": "^2.1.15",
-    "angular-in-memory-web-api": "~0.16.0",
     "js-stl": "^0.0.6",
     "node-stl": "^0.7.3",
     "rxjs": "~7.8.0",
