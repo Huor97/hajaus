@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, NgZone } from '@angular/core';
 import * as THREE from 'three';
-import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
-import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.j
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
+import { STLExporter } from 'three/examples/jsm/exporters/STLExporter.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 @Component({
     selector: 'app-root',
