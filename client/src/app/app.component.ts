@@ -5,9 +5,10 @@ import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 
 @Component({
-  selector: 'app-root',
-  template: '<div id="scene-container"></div>',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    template: '<div id="scene-container"></div>',
+    styleUrls: ['./app.component.css'],
+    standalone: false
 })
 export class AppComponent implements OnInit {
 
